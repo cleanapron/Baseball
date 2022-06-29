@@ -2,8 +2,10 @@ import pandas as pd
 from numpy.random import choice
 from numpy.random import binomial
 runs_scored_transition_matrix_filepath = "~/Downloads/Batter Event Transition Matrix 6_21 - Runs Scored.csv"
+runs_scored_nb_transition_matrix_filepath = "~/Downloads/Batter Event Transition Matrix 6_21 - Runs Scored NB.csv"
 
 RUNS_SCORED_FROM_TRANSITION_MATRIX = pd.read_csv(runs_scored_transition_matrix_filepath, header=None)
+RUNS_SCORED_FROM_NB_TRANSITION_MATRIX = pd.read_csv(runs_scored_nb_transition_matrix_filepath, header=None)
 LIST_OF_NEXT_STATES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 PROB_OF_BATTER_EVENT = [0.9997968306, 0.9323279925, 0.962289745, 0.9589141599, 0.9868421053,
                         0.9311440678, 0.9850968703, 0.9829396325, 0.9998761303, 0.9177976558,
@@ -30,6 +32,7 @@ class Event:
         self.batter_transition_matrix = current_batter_transition_matrix
         self.non_batter_transition_matrix = current_non_batter_transition_matrix
         self.runs_scored_matrix = RUNS_SCORED_FROM_TRANSITION_MATRIX
+        self.runs_scored_matrix_nb = RUNS_SCORED_FROM_NB_TRANSITION_MATRIX
 
     def calculate_runs_from_transition(self, next_state):
         """
@@ -40,6 +43,16 @@ class Event:
         if next_state == 24:
             return self.calculate_runs_from_inning_end()
         return self.runs_scored_matrix.iloc[next_state, self.start_state]
+
+    def calculate_runs_from_transition_nb(self, next_state):
+        """
+
+        :param next_state:
+        :return:
+        """
+        if next_state == 24:
+            return self.calculate_runs_from_inning_end()
+        return self.runs_scored_matrix_nb.iloc[next_state, self.start_state]
 
     def calculate_runs_from_inning_end(self):
         # TODO Calculate using probabilities from excel
@@ -89,7 +102,7 @@ class Event:
             print("NONBATTER EVENT!!!!!")
             outcome = self.determine_next_state_from_non_batter_event()
             print("outcome", outcome)
-            runs = self.calculate_runs_from_transition(outcome)
+            runs = self.calculate_runs_from_transition_nb(outcome)
             self.start_state = outcome
         return runs
 
