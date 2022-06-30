@@ -1,6 +1,6 @@
 import pandas as pd
 from numpy.random import choice
-from states import Event
+from states import Event, Inning
 
 # draw = choice(list_of_candidates, number_of_items_to_pick,
 #               p=probability_distribution)
@@ -100,4 +100,13 @@ def test_process_step():
             break
 
 
-test_process_step()
+def test_inning_class():
+    test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+    print(test_inning.run_inning(), '\n',  'top inning path', test_inning.top_inning_path,
+          '\n', 'bottom inning path', test_inning.bottom_inning_path)
+
+
+for i in range(9):
+    test_inning_class()
+#test_process_step()
+
