@@ -14,7 +14,7 @@ def get_batter_transition_matrix():
     
     :return: Batter Transition Matrix
     """
-    transition_matrix_filepath = "~/Downloads/Batter Event Transition Matrix 6_21 - Sheet1.csv"
+    transition_matrix_filepath = "Batter Event Transition Matrix 6_21 - Sheet1.csv"
     return pd.read_csv(transition_matrix_filepath, header=None)
 
 
@@ -23,7 +23,7 @@ def get_non_batter_transition_matrix():
     Helper function to get non batter transition matrix for assistance in testing
     :return: Non Batter Transition Matrix
     """
-    transition_matrix_filepath = "~/Downloads/Batter Event Transition Matrix 6_21 - Non Batter Event Probability Matrix.csv"
+    transition_matrix_filepath = "Batter Event Transition Matrix 6_21 - Non Batter Event Probability Matrix.csv"
     return pd.read_csv(transition_matrix_filepath, header=None)
 
 

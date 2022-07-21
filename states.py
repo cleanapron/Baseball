@@ -1,8 +1,8 @@
 import pandas as pd
 from numpy.random import choice
 from numpy.random import binomial
-runs_scored_transition_matrix_filepath = "~/Downloads/Batter Event Transition Matrix 6_21 - Runs Scored.csv"
-runs_scored_nb_transition_matrix_filepath = "~/Downloads/Batter Event Transition Matrix 6_21 - Runs Scored NB.csv"
+runs_scored_transition_matrix_filepath = "Batter Event Transition Matrix 6_21 - Runs Scored.csv"
+runs_scored_nb_transition_matrix_filepath = "Batter Event Transition Matrix 6_21 - Runs Scored NB.csv"
 
 RUNS_SCORED_FROM_TRANSITION_MATRIX = pd.read_csv(runs_scored_transition_matrix_filepath, header=None)
 RUNS_SCORED_FROM_NB_TRANSITION_MATRIX = pd.read_csv(runs_scored_nb_transition_matrix_filepath, header=None)
