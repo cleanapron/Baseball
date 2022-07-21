@@ -106,9 +106,54 @@ def test_inning_class():
           # , '\n',  'top inning path', test_inning.top_inning_path,
           # '\n', 'bottom inning path', test_inning.bottom_inning_path)
 
+def simulate_N_innings(N):
 
-# for i in range(9):
+    # define data lists
+    home_team_scores = []
+    away_team_scores = []
+
+    # simulate innings
+    for i in range(N):
+        test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+        inning_results = test_inning.run_inning()
+        home_team_scores.append(inning_results["Home Team Score"])
+        away_team_scores.append(inning_results["Away Team Score"])
+
+    return {
+        "N": N,
+        "Home Team Scores": home_team_scores,
+        "Away Team Scores": away_team_scores,
+    }
+
+
+
+#for i in range(9):
 #     test_inning_class()
 #test_process_step()
 
-test_inning_class()
+#test_inning_class()
+
+#test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+#inning_results = test_inning.run_inning()
+#print(inning_results["Home Team Score"])
+
+N = 1000
+sim_results = simulate_N_innings(N)
+home_team_scores = sim_results["Home Team Scores"]
+away_team_scores = sim_results["Away Team Scores"]
+print('ave home score =', sum(home_team_scores)/N)
+print('0 runs:', home_team_scores.count(0), home_team_scores.count(0)/N)
+print('1 runs:', home_team_scores.count(1), home_team_scores.count(1)/N)
+print('2 runs:', home_team_scores.count(2), home_team_scores.count(2)/N)
+print('3 runs:', home_team_scores.count(3), home_team_scores.count(3)/N)
+print('4 runs:', home_team_scores.count(4), home_team_scores.count(4)/N)
+print('5 runs:', home_team_scores.count(5), home_team_scores.count(5)/N)
+
+print ('')
+print('ave away score =', sum(away_team_scores)/N)
+print('0 runs:', away_team_scores.count(0), away_team_scores.count(0)/N)
+print('1 runs:', away_team_scores.count(1), away_team_scores.count(1)/N)
+print('2 runs:', away_team_scores.count(2), away_team_scores.count(2)/N)
+print('3 runs:', away_team_scores.count(3), away_team_scores.count(3)/N)
+print('4 runs:', away_team_scores.count(4), away_team_scores.count(4)/N)
+print('5 runs:', away_team_scores.count(5), away_team_scores.count(5)/N)
