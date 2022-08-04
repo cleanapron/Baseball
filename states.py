@@ -24,15 +24,11 @@ END_STATE = 24
 
 class Inning:
     def __init__(self, starting_batter_transition_matrix, starting_non_batter_transition_matrix,
-                 extra_inning_status=False, top_of_inning=True):
-        self.top_inning_event_engine = Event(starting_batter_transition_matrix, starting_non_batter_transition_matrix)
-        self.bottom_inning_event_engine = Event(starting_batter_transition_matrix, starting_non_batter_transition_matrix)
+                 extra_inning_status=False):
+        self.inning_event_engine = Event(starting_batter_transition_matrix, starting_non_batter_transition_matrix)
         self.is_extra_inning = extra_inning_status
-        self.is_top_of_inning = top_of_inning
-        self.top_inning_path = []
-        self.bottom_inning_path = []
-        self.home_team_inning_score = 0
-        self.away_team_inning_score = 0
+        self.inning_path = []
+        self.inning_score = 0
 
     def run_inning(self):
         inning_results = None
@@ -41,25 +37,17 @@ class Inning:
         return inning_results
 
     def process_inning_event(self):
-        if self.is_top_of_inning:
-            event_log = self.top_inning_event_engine.process_step()
-            self.away_team_inning_score += event_log["runs_scored"]
-            self.top_inning_path.append(event_log)
-            if self.top_inning_event_engine.get_state() == END_STATE:
-                self.is_top_of_inning = False
-        else:
-            event_log = self.bottom_inning_event_engine.process_step()
-            self.home_team_inning_score += event_log["runs_scored"]
-            self.bottom_inning_path.append(event_log)
-            if self.bottom_inning_event_engine.get_state() == END_STATE:
-                return self.end_inning()
+        event_log = self.inning_event_engine.process_step()
+        self.inning_score += event_log["runs_scored"]
+        self.inning_path.append(event_log)
+        if self.inning_event_engine.get_state() == END_STATE:
+            return self.end_inning()
+
         return None
 
     def end_inning(self):
-        return {"Home Team Score": self.home_team_inning_score,
-                "Away Team Score": self.away_team_inning_score,
-                "Top of Inning Log": self.top_inning_path,
-                "Bottom of Inning Log": self.bottom_inning_path}
+        return {"Inning Score": self.inning_score,
+                "Inning Log": self.inning_path}
 
     def update_transition_matrix(self, transition_matrix, is_batter):
         """
@@ -82,8 +70,8 @@ class Inning:
 
 
 class Event:
-    def __init__(self, current_batter_transition_matrix, current_non_batter_transition_matrix):
-        self.start_state = 0
+    def __init__(self, current_batter_transition_matrix, current_non_batter_transition_matrix, initial_state=0):
+        self.start_state = initial_state
         self.batter_transition_matrix = current_batter_transition_matrix
         self.non_batter_transition_matrix = current_non_batter_transition_matrix
         self.runs_scored_matrix = RUNS_SCORED_FROM_TRANSITION_MATRIX
