@@ -114,10 +114,12 @@ def simulate_N_innings(N):
 
     # simulate innings
     for i in range(N):
-        test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
-        inning_results = test_inning.run_inning()
-        home_team_scores.append(inning_results["Home Team Score"])
-        away_team_scores.append(inning_results["Away Team Score"])
+        away_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+        away_inning_results = away_inning.run_inning()
+        home_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+        home_inning_results = home_inning.run_inning()
+        away_team_scores.append(away_inning_results["Inning Score"])
+        home_team_scores.append(home_inning_results["Inning Score"])
 
     return {
         "N": N,
@@ -135,9 +137,9 @@ def simulate_N_innings(N):
 
 #test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
 #inning_results = test_inning.run_inning()
-#print(inning_results["Home Team Score"])
+#print(inning_results["Inning Score"])
 
-N = 2430*9
+N = 1000
 sim_results = simulate_N_innings(N)
 home_team_scores = sim_results["Home Team Scores"]
 away_team_scores = sim_results["Away Team Scores"]
