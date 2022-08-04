@@ -106,9 +106,48 @@ def test_inning_class():
           # , '\n',  'top inning path', test_inning.top_inning_path,
           # '\n', 'bottom inning path', test_inning.bottom_inning_path)
 
+def simulate_N_innings(N):
 
-# for i in range(9):
+    # define data lists
+    home_team_scores = []
+    away_team_scores = []
+
+    # simulate innings
+    for i in range(N):
+        test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+        inning_results = test_inning.run_inning()
+        home_team_scores.append(inning_results["Home Team Score"])
+        away_team_scores.append(inning_results["Away Team Score"])
+
+    return {
+        "N": N,
+        "Home Team Scores": home_team_scores,
+        "Away Team Scores": away_team_scores,
+    }
+
+
+
+#for i in range(9):
 #     test_inning_class()
 #test_process_step()
 
-test_inning_class()
+#test_inning_class()
+
+#test_inning = Inning(get_batter_transition_matrix(), get_non_batter_transition_matrix())
+#inning_results = test_inning.run_inning()
+#print(inning_results["Home Team Score"])
+
+N = 2430*9
+sim_results = simulate_N_innings(N)
+home_team_scores = sim_results["Home Team Scores"]
+away_team_scores = sim_results["Away Team Scores"]
+print('ave home score =', sum(home_team_scores)/N)
+for r in range(15):
+    count = home_team_scores.count(r)
+    print(r, 'runs:', count, count/N)
+
+print ('')
+print('ave away score =', sum(away_team_scores)/N)
+for r in range(15):
+    count = away_team_scores.count(r)
+    print(r, 'runs:', count, count/N)
