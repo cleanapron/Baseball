@@ -1,0 +1,3 @@
+# Ignore files related to IDE settings & macbook stuff
+.DS_Store
+.idea
